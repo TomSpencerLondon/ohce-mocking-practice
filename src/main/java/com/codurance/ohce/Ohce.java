@@ -12,6 +12,8 @@ public class Ohce {
     public static final String NEW_LINE = "\n";
     private Console console;
     private Clock clock;
+    private final Calendar firstBoundary = Calendar.getInstance();
+    private final Calendar secondBoundary = Calendar.getInstance();
 
     public Ohce(Console console, Clock clock) {
         this.console = console;
@@ -33,19 +35,24 @@ public class Ohce {
     }
 
     private StringBuilder greet(String text) {
-        Calendar a1 = Calendar.getInstance();
-        a1.set(Calendar.HOUR_OF_DAY, 6);
+        StringBuilder stringBuilder = new StringBuilder();
+        String name = text.split(" ")[1];
 
-        Calendar a2 = Calendar.getInstance();
-        a2.set(Calendar.HOUR_OF_DAY, 12);
-
-        Calendar now = clock.currentTime();
-        boolean isBetween = now.after(a1) && now.before(a2);
-        if (isBetween) {
-            return new StringBuilder(MORNING_GREETING + text.split(" ")[1] + "!");
+        if (isMorning()) {
+            stringBuilder.append(MORNING_GREETING);
+        } else {
+            stringBuilder.append(EVENING_GREETING);
         }
 
-        return new StringBuilder(EVENING_GREETING + text.split(" ")[1] + "!");
+        return stringBuilder.append(name)
+                            .append("!");
+    }
+
+    private boolean isMorning() {
+        Calendar now = clock.currentTime();
+        firstBoundary.set(Calendar.HOUR_OF_DAY, 6);
+        secondBoundary.set(Calendar.HOUR_OF_DAY, 12);
+        return now.after(firstBoundary) && now.before(secondBoundary);
     }
 
     private boolean isGreet(String text) {
