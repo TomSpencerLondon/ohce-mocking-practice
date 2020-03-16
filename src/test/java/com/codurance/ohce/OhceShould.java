@@ -12,6 +12,7 @@ public class OhceShould {
   private Ohce ohce;
 
   private TestableClock testableClock;
+  private int HOUR;
 
   @BeforeEach
   void setUp() {
@@ -22,20 +23,30 @@ public class OhceShould {
 
   @Test
   void reverses_a_string() {
-    ohce.greet("hola");
+    ohce.echo("hola");
     assertEquals("aloh", testableConsole.getText());
   }
 
   @Test
   void adds_bonita_palabra_for_palindome() {
-    ohce.greet("oto");
+    ohce.echo("oto");
     assertEquals("oto\n¡Bonita palabra!", testableConsole.getText());
   }
 
   @Test
   void returns_buenas_noches() {
-    ohce.greet("ohce Pedro");
+    HOUR = 5;
+
+    ohce.echo("ohce Pedro");
     assertEquals("¡Buenas noches Pedro!", testableConsole.getText());
+  }
+
+  @Test
+  void returns_Buenos_días() {
+    HOUR = 7;
+
+    ohce.echo("ohce Pedro");
+    assertEquals("¡Buenos días Pedro!", testableConsole.getText());
   }
 
   private class TestableConsole implements Console {
@@ -55,7 +66,9 @@ public class OhceShould {
   private class TestableClock implements Clock {
     @Override
     public Calendar currentTime() {
-      return null;
+      Calendar time = Calendar.getInstance();
+      time.set(Calendar.HOUR_OF_DAY, HOUR);
+      return time;
     }
   }
 }

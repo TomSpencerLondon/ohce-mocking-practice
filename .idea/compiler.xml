@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Ohce" />
+        <module name="ohce-mocking-practice" />
       </profile>
     </annotationProcessing>
   </component>
